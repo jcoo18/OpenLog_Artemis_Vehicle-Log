@@ -1,0 +1,37 @@
+++ MbedOS Fault Handler ++
+
+FaultType: HardFault
+
+Context:
+R0: 0
+R1: 4E
+R2: 100029B0
+R3: A3009150
+R4: 0
+R5: 0
+R6: 0
+R7: 27
+R8: 0
+R9: 27
+R10: 10001730
+R11: 5D9FB
+R12: 505C9
+SP   : 10007BB0
+LR   : 27A8F
+PC   : 3D854
+xPSR : 1000000
+PSP  : 10007B48
+MSP  : 1005FF70
+CPUID: 410FC241
+HFSR : 40000000
+MMFSR: 0
+BFSR : 82
+UFSR : 0
+DFSR : 0
+AFSR : 0
+BFAR : A3009150
+Mode : Thread
+Priv : Privileged
+Stack: PSP
+
+-- MbedOS Fault Handler --
