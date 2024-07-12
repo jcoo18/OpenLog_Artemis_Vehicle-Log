@@ -303,6 +303,12 @@ bool addDevice(deviceType_e deviceType, uint8_t address, uint8_t muxAddress, uin
         temp->configPtr = new struct_ADS1015;
       }
       break;
+    case DEVICE_PCF8575:
+      {
+        temp->classPtr = new PCF8575;
+        temp->configPtr = new struct_PCF8575;
+      }
+      break;
     default:
       SerialPrintf2("addDevice Device type not found: %d\r\n", deviceType);
       break;
@@ -639,6 +645,15 @@ bool beginQwiicDevices()
           struct_ADS1015 *nodeSetting = (struct_ADS1015 *)temp->configPtr; //Create a local pointer that points to same spot as node does
           if (nodeSetting->powerOnDelayMillis > qwiicPowerOnDelayMillis) qwiicPowerOnDelayMillis = nodeSetting->powerOnDelayMillis; // Increase qwiicPowerOnDelayMillis if required
           if (tempDevice->begin(temp->address, qwiic)) //address, Wire port
+            temp->online = true;
+        }
+        break;
+      case DEVICE_PCF8575:
+        {
+          PCF8575 *tempDevice = (PCF8575 *)temp->classPtr;
+          struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr; //Create a local pointer that points to same spot as node does
+          if (nodeSetting->powerOnDelayMillis > qwiicPowerOnDelayMillis) qwiicPowerOnDelayMillis = nodeSetting->powerOnDelayMillis; // Increase qwiicPowerOnDelayMillis if required
+          if (tempDevice->begin(temp->address)) // begin and set address. Returns true if connected
             temp->online = true;
         }
         break;
@@ -1057,6 +1072,9 @@ void configureDevice(node * temp)
         sensor->useConversionReady(true);
       }
       break;
+    case DEVICE_PCF8575:
+        //Nothing to configure
+      break;
     default:
       SerialPrintf3("configureDevice: Unknown device type %d: %s\r\n", deviceType, getDeviceName((deviceType_e)deviceType));
       break;
@@ -1183,6 +1201,9 @@ FunctionPointer getConfigFunctionPtr(uint8_t nodeNumber)
       break;
     case DEVICE_ADS1015:
       ptr = (FunctionPointer)menuConfigure_ADS1015;
+      break;
+    case DEVICE_PCF8575:
+      ptr = (FunctionPointer)menuConfigure_PCF8575;
       break;
     default:
       SerialPrintln(F("getConfigFunctionPtr: Unknown device type"));
@@ -1343,6 +1364,7 @@ void swap(struct node * a, struct node * b)
 #define ADR_MS5837 0x76
 //#define ADR_MS8607 0x76 //Pressure portion of the MS8607 sensor. We'll catch the 0x40 first
 #define ADR_BME280 0x77 //Alternates: 0x76
+#define ADR_PCF8575 0x27  // All address lines pulled high
 
 //Given an address, returns the device type if it responds as we would expect
 //Does not test for multiplexers. See testMuxDevice for dedicated mux testing.
@@ -1401,6 +1423,12 @@ deviceType_e testDevice(uint8_t i2cAddress, uint8_t muxAddress, uint8_t portNumb
             return (DEVICE_LOADCELL_NAU7802);
       }
       break;
+    case 0x27:
+      {
+        PCF8575 sensor;
+        if(sensor.begin(i2cAddress))
+          return (DEVICE_PCF8575);
+      }
     case 0x29:
       {
         //Confidence: High - Checks 16 bit ID
@@ -1966,6 +1994,9 @@ const char* getDeviceName(deviceType_e deviceNumber)
       break;
     case DEVICE_ADS1015:
       return "ADC-ADS1015";
+      break;
+    case DEVICE_PCF8575:
+      return "GPIO-PCF8575";
       break;
 
     case DEVICE_UNKNOWN_DEVICE:

@@ -863,6 +863,12 @@ void recordDeviceSettingsToFile()
             settingsFile.println((String)base + "gain16=" + nodeSetting->gain16);
           }
           break;
+        case DEVICE_PCF8575:
+          {
+            struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr;
+            settingsFile.println((String)base + "log=" + nodeSetting->log);
+          }
+          break;
         default:
           SerialPrintf2("recordSettingsToFile Unknown device: %s\r\n", base);
           //settingsFile.println((String)base + "=UnknownDeviceSettings");
@@ -1624,6 +1630,15 @@ bool parseDeviceLine(char* str) {
             nodeSetting->gain8 = d;
           else if (strcmp(deviceSettingName, "gain16") == 0)
             nodeSetting->gain16 = d;
+          else
+            SerialPrintf2("Unknown device setting: %s\r\n", deviceSettingName);
+        }
+        break;
+      case DEVICE_PCF8575:
+        {
+          struct_PCF8575 *nodeSetting = (struct_PCF8575 *)deviceConfigPtr; //Create a local pointer that points to same spot as node does
+          if (strcmp(deviceSettingName, "log") == 0)
+            nodeSetting->log = d;
           else
             SerialPrintf2("Unknown device setting: %s\r\n", deviceSettingName);
         }

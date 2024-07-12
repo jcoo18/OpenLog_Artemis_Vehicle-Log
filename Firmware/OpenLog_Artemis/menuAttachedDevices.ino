@@ -375,6 +375,10 @@ void menuAttachedDevices()
           case DEVICE_ADS1015:
             SerialPrintf3("%s ADS1015 ADC %s\r\n", strDeviceMenu, strAddress);
             break;
+          case DEVICE_PCF8575:
+            SerialPrintf3("%s PCF8575 GPIO expander %s\r\n", strDeviceMenu, strAddress);
+            break;
+
           default:
             SerialPrintf2("Unknown device type %d in menuAttachedDevices\r\n", temp->deviceType);
             break;
@@ -3504,6 +3508,34 @@ void menuConfigure_ADS1015(void *configPtr)
       else
         printUnknown(incoming);
     }
+    else if (incoming == STATUS_PRESSED_X)
+      break;
+    else if (incoming == STATUS_GETNUMBER_TIMEOUT)
+      break;
+    else
+      printUnknown(incoming);
+  }
+}
+
+void menuConfigure_PCF8575(void *configPtr)
+{
+  struct_PCF8575 *sensorSetting = (struct_PCF8575 *)configPtr;
+
+  while (1)
+  {
+    SerialPrintln(F(""));
+    SerialPrintln(F("Menu: Configure PCF8575 ADC"));
+
+    SerialPrint(F("1) Sensor Logging: "));
+    if (sensorSetting->log == true) SerialPrintln(F("Enabled"));
+    else SerialPrintln(F("Disabled"));
+    SerialPrintln(F("x) Exit"));
+
+    int incoming = getNumber(menuTimeout); //Timeout after x seconds
+
+    // Flip the option 1 setting vairable if 1 input
+    if (incoming == 1)
+      sensorSetting->log ^= 1;
     else if (incoming == STATUS_PRESSED_X)
       break;
     else if (incoming == STATUS_GETNUMBER_TIMEOUT)

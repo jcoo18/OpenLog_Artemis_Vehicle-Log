@@ -75,6 +75,10 @@ This document summarizes the units used for each sensor measurement.
 
 - [KX134 accelerometer](#KX134-accelerometer)
 
+### GPIO Expander:
+
+- [PCF8575 GPIO Expander](#PCF8575-GPIO-Expander)
+
 
 ---
 ## Sensor Units
@@ -422,3 +426,9 @@ Extended status:
 |---|---|---|
 | Voltage | A0mV,A1mV,A2mV,A3mV,A0A1mV,A0A3mV,A1A3mV,A2A3mV | milliVolts |
 
+---
+## PCF8575 GPIO Expander
+
+| []() | | |
+|---|---|---|
+| Binary | 16-Bits | Hex |

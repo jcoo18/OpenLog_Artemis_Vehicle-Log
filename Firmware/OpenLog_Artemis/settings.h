@@ -34,6 +34,7 @@ typedef enum
   DEVICE_ADS1015,
   DEVICE_PRESSURE_LPS28DFW,
   DEVICE_LIGHT_VEML7700,
+  DEVICE_PCF8575,
 
   DEVICE_TOTAL_DEVICES, //Marks the end, used to iterate loops
   DEVICE_UNKNOWN_DEVICE,
@@ -486,6 +487,11 @@ struct struct_ADS1015 {
   bool gain16 = false;
   unsigned long powerOnDelayMillis = minimumQwiicPowerOnDelay; // Wait for at least this many millis before communicating with this device. Increase if required!
 };
+
+struct struct_PCF8575 {
+  bool log = true;
+  unsigned long powerOnDelayMillis = minimumQwiicPowerOnDelay; // Wait for at least this many millis before communicating with this device. Increase if required!
+}
 
 
 //This is all the settings that can be set on OpenLog. It's recorded to NVM and the config file.

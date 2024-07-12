@@ -1313,6 +1313,17 @@ void gatherDeviceValues(char * sdOutputData, size_t lenData)
             }
           }
           break;
+        case DEVICE_PCF8575:
+          {
+            PCF8575 *nodeDevice = (PCF8575 *)temp->classPtr;
+            struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr;
+            if (nodeSetting->log == true)
+            {
+                olaftoa(nodeDevice->read(), tempData1, 2, sizeof(tempData1) / sizeof(char));
+                sprintf(tempData, "%s,", tempData1);
+                strlcat(sdOutputData, tempData, lenData);
+            }
+          break;
         default:
           SerialPrintf2("printDeviceValue unknown device type: %s\r\n", getDeviceName(temp->deviceType));
           break;
