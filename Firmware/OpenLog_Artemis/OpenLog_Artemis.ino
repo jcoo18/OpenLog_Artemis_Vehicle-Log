@@ -337,7 +337,7 @@ icm_20948_DMP_data_t dmpData; // Global storage for the DMP data - extracted fro
 #include "SparkFun_KX13X.h" //Click here to get the library: http://librarymanager/All#SparkFun_KX13X
 #include "SparkFun_LPS28DFW_Arduino_Library.h" //Click here to get the library: http://librarymanager/All#SparkFun_LPS28DFW_Arduino_Library
 #include "SparkFun_VEML7700_Arduino_Library.h" // Click here to get the library: http://librarymanager/All#SparkFun_VEML7700
-#include "PCF8575.h"  // Click here to download the library: https://github.com/jcoo18/PCF8575-lib/tree/wip
+#include "I2cDiscreteIoExpander.h"  // Click here to download the library: https://github.com/4-20ma/I2cDiscreteIoExpander
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 //Global variables

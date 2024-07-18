@@ -1313,13 +1313,13 @@ void gatherDeviceValues(char * sdOutputData, size_t lenData)
             }
           }
           break;
-        case DEVICE_PCF8575:
+        case DEVICE_I2cDiscreteIoExpander :
           {
-            PCF8575 *nodeDevice = (PCF8575 *)temp->classPtr;
-            struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr;
+            I2cDiscreteIoExpander  *nodeDevice = (I2cDiscreteIoExpander  *)temp->classPtr;
+            struct_I2cDiscreteIoExpander  *nodeSetting = (struct_I2cDiscreteIoExpander  *)temp->configPtr;
             if (nodeSetting->log == true)
             {
-                olaftoa(nodeDevice->read(), tempData1, 2, sizeof(tempData1) / sizeof(char));
+                olaftoa(nodeDevice->digitalRead(), tempData1, 2, sizeof(tempData1) / sizeof(char));
                 sprintf(tempData, "%s,", tempData1);
                 strlcat(sdOutputData, tempData, lenData);
             }

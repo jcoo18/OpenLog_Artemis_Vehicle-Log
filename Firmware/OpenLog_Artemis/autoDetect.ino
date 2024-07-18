@@ -303,10 +303,10 @@ bool addDevice(deviceType_e deviceType, uint8_t address, uint8_t muxAddress, uin
         temp->configPtr = new struct_ADS1015;
       }
       break;
-    case DEVICE_PCF8575:
+    case DEVICE_I2cDiscreteIoExpander :
       {
-        temp->classPtr = new PCF8575(address);
-        temp->configPtr = new struct_PCF8575;
+        temp->classPtr = new I2cDiscreteIoExpander;
+        temp->configPtr = new struct_I2cDiscreteIoExpander ;
       }
       break;
     default:
@@ -648,13 +648,13 @@ bool beginQwiicDevices()
             temp->online = true;
         }
         break;
-      case DEVICE_PCF8575:
+      case DEVICE_I2cDiscreteIoExpander :
         {
-          PCF8575 *tempDevice = (PCF8575 *)temp->classPtr;
-          struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr; //Create a local pointer that points to same spot as node does
+          I2cDiscreteIoExpander  *tempDevice = (I2cDiscreteIoExpander  *)temp->classPtr;
+          struct_I2cDiscreteIoExpander  *nodeSetting = (struct_I2cDiscreteIoExpander  *)temp->configPtr; //Create a local pointer that points to same spot as node does
           if (nodeSetting->powerOnDelayMillis > qwiicPowerOnDelayMillis) qwiicPowerOnDelayMillis = nodeSetting->powerOnDelayMillis; // Increase qwiicPowerOnDelayMillis if required
-          bool retVal = tempDevice->begin(temp->address);
-          if (retVal) // begin and set address. Returns true if connected
+          bool retVal = tempDevice->digitalWrite(0x00);
+          if (retVal == tempDevice->TWI_SUCCESS ) // Returns true if connected
             temp->online = true;
           if (settings.printDebugMessages == true)
             {
@@ -1077,7 +1077,7 @@ void configureDevice(node * temp)
         sensor->useConversionReady(true);
       }
       break;
-    case DEVICE_PCF8575:
+    case DEVICE_I2cDiscreteIoExpander :
         //Nothing to configure
       break;
     default:
@@ -1207,8 +1207,8 @@ FunctionPointer getConfigFunctionPtr(uint8_t nodeNumber)
     case DEVICE_ADS1015:
       ptr = (FunctionPointer)menuConfigure_ADS1015;
       break;
-    case DEVICE_PCF8575:
-      ptr = (FunctionPointer)menuConfigure_PCF8575;
+    case DEVICE_I2cDiscreteIoExpander :
+      ptr = (FunctionPointer)menuConfigure_I2cDiscreteIoExpander ;
       break;
     default:
       SerialPrintln(F("getConfigFunctionPtr: Unknown device type"));
@@ -1369,7 +1369,7 @@ void swap(struct node * a, struct node * b)
 #define ADR_MS5837 0x76
 //#define ADR_MS8607 0x76 //Pressure portion of the MS8607 sensor. We'll catch the 0x40 first
 #define ADR_BME280 0x77 //Alternates: 0x76
-#define ADR_PCF8575 0x27  // All address lines pulled high
+#define ADR_I2cDiscreteIoExpander  0x27  // All address lines pulled high
 
 //Given an address, returns the device type if it responds as we would expect
 //Does not test for multiplexers. See testMuxDevice for dedicated mux testing.
@@ -1430,11 +1430,11 @@ deviceType_e testDevice(uint8_t i2cAddress, uint8_t muxAddress, uint8_t portNumb
       break;
     case 0x27:
       {
-        PCF8575 sensor(0x27);
-        bool retVal = sensor.begin();
+        I2cDiscreteIoExpander  sensor(7);
+        bool retVal = sensor.digitalWrite(0x00);
         SerialPrintf2("Return Value of device 0x27: %d \r\n", retVal);
-        //if(sensor.begin(i2cAddress) == true)
-          return (DEVICE_PCF8575);
+        if(sensor.TWI_SUCCESS  == retVal)
+          return (DEVICE_I2cDiscreteIoExpander );
       }
     case 0x29:
       {
@@ -2002,7 +2002,7 @@ const char* getDeviceName(deviceType_e deviceNumber)
     case DEVICE_ADS1015:
       return "ADC-ADS1015";
       break;
-    case DEVICE_PCF8575:
+    case DEVICE_I2cDiscreteIoExpander :
       return "GPIO-PCF8575";
       break;
 

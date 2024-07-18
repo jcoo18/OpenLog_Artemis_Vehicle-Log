@@ -375,7 +375,7 @@ void menuAttachedDevices()
           case DEVICE_ADS1015:
             SerialPrintf3("%s ADS1015 ADC %s\r\n", strDeviceMenu, strAddress);
             break;
-          case DEVICE_PCF8575:
+          case DEVICE_I2cDiscreteIoExpander :
             SerialPrintf3("%s PCF8575 GPIO expander %s\r\n", strDeviceMenu, strAddress);
             break;
 
@@ -3517,14 +3517,14 @@ void menuConfigure_ADS1015(void *configPtr)
   }
 }
 
-void menuConfigure_PCF8575(void *configPtr)
+void menuConfigure_I2cDiscreteIoExpander (void *configPtr)
 {
-  struct_PCF8575 *sensorSetting = (struct_PCF8575 *)configPtr;
+  struct_I2cDiscreteIoExpander  *sensorSetting = (struct_I2cDiscreteIoExpander  *)configPtr;
 
   while (1)
   {
     SerialPrintln(F(""));
-    SerialPrintln(F("Menu: Configure PCF8575 ADC"));
+    SerialPrintln(F("Menu: Configure PCF8575"));
 
     SerialPrint(F("1) Sensor Logging: "));
     if (sensorSetting->log == true) SerialPrintln(F("Enabled"));

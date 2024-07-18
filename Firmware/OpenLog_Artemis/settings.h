@@ -34,7 +34,7 @@ typedef enum
   DEVICE_ADS1015,
   DEVICE_PRESSURE_LPS28DFW,
   DEVICE_LIGHT_VEML7700,
-  DEVICE_PCF8575,
+  DEVICE_I2cDiscreteIoExpander ,
 
   DEVICE_TOTAL_DEVICES, //Marks the end, used to iterate loops
   DEVICE_UNKNOWN_DEVICE,
@@ -488,7 +488,7 @@ struct struct_ADS1015 {
   unsigned long powerOnDelayMillis = minimumQwiicPowerOnDelay; // Wait for at least this many millis before communicating with this device. Increase if required!
 };
 
-struct struct_PCF8575 {
+struct struct_I2cDiscreteIoExpander  {
   bool log = true;
   unsigned long powerOnDelayMillis = minimumQwiicPowerOnDelay; // Wait for at least this many millis before communicating with this device. Increase if required!
 };

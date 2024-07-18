@@ -863,9 +863,9 @@ void recordDeviceSettingsToFile()
             settingsFile.println((String)base + "gain16=" + nodeSetting->gain16);
           }
           break;
-        case DEVICE_PCF8575:
+        case DEVICE_I2cDiscreteIoExpander :
           {
-            struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr;
+            struct_I2cDiscreteIoExpander  *nodeSetting = (struct_I2cDiscreteIoExpander  *)temp->configPtr;
             settingsFile.println((String)base + "log=" + nodeSetting->log);
           }
           break;
@@ -1634,9 +1634,9 @@ bool parseDeviceLine(char* str) {
             SerialPrintf2("Unknown device setting: %s\r\n", deviceSettingName);
         }
         break;
-      case DEVICE_PCF8575:
+      case DEVICE_I2cDiscreteIoExpander :
         {
-          struct_PCF8575 *nodeSetting = (struct_PCF8575 *)deviceConfigPtr; //Create a local pointer that points to same spot as node does
+          struct_I2cDiscreteIoExpander  *nodeSetting = (struct_I2cDiscreteIoExpander  *)deviceConfigPtr; //Create a local pointer that points to same spot as node does
           if (strcmp(deviceSettingName, "log") == 0)
             nodeSetting->log = d;
           else
