@@ -1,0 +1,29 @@
+###### 17/07/2024 ######
+
+Artemis OpenLog v2.8
+Logging to: dataLog00041.TXT
+Finding the next available log file.
+This could take a long time if the SD card contains many existing log files.
+Logging to: serialLog00000.TXT
+ICM_20948::startupMagnetometer: successful magWhoIAm after 1 try
+ICM_20948::startupMagnetometer: minimal startup complete!
+ICM_20948::startupDefault: minimal startup complete!
+ICM_20948::startupMagnetometer: successful magWhoIAm after 1 try
+SD card online
+Data logging online
+Serial logging online
+IMU online
+detectQwiicDevices started
+waitForQwiicBusPowerDelay: qwiicPowerHasBeenOnFor 3490ms
+Identifying Qwiic Muxes...
+Identifying Qwiic Devices...
+detectQwiicDevices: something detected at address 0x27
+Return Value of device 0x27: 0detectQwiicDevices: added GPIO-PCF8575 at address 0x27
+Autodetect complete
+waitForQwiicBusPowerDelay: qwiicPowerHasBeenOnFor 3550ms
+beginQwiicDevices: attempting to begin deviceType GPIO-PCF8575 at address 0x27 using mux address 0x0 and port number 0
+beginQwiicDevices: device is **NOT** online
+setMaxI2CSpeed: setting qwiic clock speed to 100000Hz
+GPIO-PCF8575 failed to respond
+Device count: 0
+Content-Type: text/csv

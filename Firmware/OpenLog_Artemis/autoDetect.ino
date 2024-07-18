@@ -305,7 +305,7 @@ bool addDevice(deviceType_e deviceType, uint8_t address, uint8_t muxAddress, uin
       break;
     case DEVICE_PCF8575:
       {
-        temp->classPtr = new PCF8575;
+        temp->classPtr = new PCF8575(address);
         temp->configPtr = new struct_PCF8575;
       }
       break;
@@ -653,8 +653,13 @@ bool beginQwiicDevices()
           PCF8575 *tempDevice = (PCF8575 *)temp->classPtr;
           struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr; //Create a local pointer that points to same spot as node does
           if (nodeSetting->powerOnDelayMillis > qwiicPowerOnDelayMillis) qwiicPowerOnDelayMillis = nodeSetting->powerOnDelayMillis; // Increase qwiicPowerOnDelayMillis if required
-          if (tempDevice->begin(temp->address)) // begin and set address. Returns true if connected
+          bool retVal = tempDevice->begin(temp->address);
+          if (retVal) // begin and set address. Returns true if connected
             temp->online = true;
+          if (settings.printDebugMessages == true)
+            {
+              SerialPrintf2("retVal = %s \r\n", retVal);
+            }
         }
         break;
       default:
@@ -1425,8 +1430,10 @@ deviceType_e testDevice(uint8_t i2cAddress, uint8_t muxAddress, uint8_t portNumb
       break;
     case 0x27:
       {
-        PCF8575 sensor;
-        if(sensor.begin(i2cAddress))
+        PCF8575 sensor(0x27);
+        bool retVal = sensor.begin();
+        SerialPrintf2("Return Value of device 0x27: %d \r\n", retVal);
+        //if(sensor.begin(i2cAddress) == true)
           return (DEVICE_PCF8575);
       }
     case 0x29:

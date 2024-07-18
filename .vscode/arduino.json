@@ -1,6 +1,5 @@
 {
-    "configuration": "pnum=BLUEPILL_F103C8,upload_method=swdMethod,xserial=generic,usb=none,xusb=FS,opt=osstd,dbg=none,rtlib=nano",
-    "board": "STMicroelectronics:stm32:GenF1",
-    "sketch": "..\\STM32_i2c_Slave_Sensor\\STM32_I2C_Slave_Sensor_v0.1\\STM32_I2C_Slave_Sensor_v0.1.ino",
-    "programmer": "stlink"
+    "sketch": "Firmware\\OpenLog_Artemis\\OpenLog_Artemis.ino",
+    "configuration": "svl_baud=460800,loader=option_svl",
+    "board": "SparkFun:apollo3:sfe_artemis_atp"
 }

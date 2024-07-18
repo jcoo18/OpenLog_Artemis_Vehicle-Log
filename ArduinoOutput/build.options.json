@@ -1,0 +1,11 @@
+{
+  "additionalFiles": "..\\..,..\\..,..\\..,..\\..,..\\..,..\\..,..\\..,..\\..,..\\..,..\\..",
+  "builtInToolsFolders": "",
+  "compiler.optimization_flags": "",
+  "customBuildProperties": "",
+  "fqbn": "SparkFun:apollo3:sfe_artemis_atp:svl_baud=460800,loader=option_svl",
+  "hardwareFolders": "C:\\Users\\jamie\\AppData\\Local\\Arduino15\\packages",
+  "otherLibrariesFolders": "C:\\Users\\jamie\\Documents\\Arduino\\libraries",
+  "runtime.ide.version": "10607",
+  "sketchLocation": "G:\\My Drive\\Programming\\Arduino\\Projects\\Projects 2024\\OpenLog_Artemis_Vehicle-Log\\Firmware\\OpenLog_Artemis"
+}

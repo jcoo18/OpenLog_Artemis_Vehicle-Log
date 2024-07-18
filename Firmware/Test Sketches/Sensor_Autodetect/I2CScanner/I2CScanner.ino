@@ -2,6 +2,7 @@
 const byte PIN_QWIIC_SCL = 8;
 const byte PIN_QWIIC_SDA = 9;
 TwoWire qwiic(PIN_QWIIC_SDA,PIN_QWIIC_SCL); //Will use pads 8/9
+#include "PCF8575.h" // Required for PCF8575
 
 const byte PIN_QWIIC_POWER = 18;
 
@@ -11,6 +12,9 @@ const byte PIN_QWIIC_POWER = 18;
 //v10 was the first red version.
 #define HARDWARE_VERSION_MAJOR 1
 #define HARDWARE_VERSION_MINOR 0
+
+/** PCF8575 instance */
+PCF8575 expander(0x27);
 
 void setup()
 {
@@ -55,11 +59,20 @@ void setup()
     Serial.println("No I2C devices found\n");
   else
     Serial.println("done\n");
+  
+  Serial.print("Expander response: ");
+  Serial.println(expander.begin());
 }
 
 void loop()
 {
-
+  Serial.println("Lopping");
+  /* DigitalRead demo */
+  //expander.detachInterrupt(3); // Temporaly disable button interrupt
+  delay(1000);                 // PRESS THE BUTTON NOW (if you want to press it) !
+  Serial.println(expander.digitalRead(3) ? "HIGH" : "LOW"); // Print button pin state
+  Serial.println(expander.read(), BIN); // Read the whole pins input register
+  //expander.attachInterrupt(3, ISRdemo, FALLING); // Re-enable interrupt on button pin
 }
 
 void qwiicPowerOn()
