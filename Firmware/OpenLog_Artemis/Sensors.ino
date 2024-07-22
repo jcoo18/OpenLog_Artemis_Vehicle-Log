@@ -1315,7 +1315,7 @@ void gatherDeviceValues(char * sdOutputData, size_t lenData)
           break;
         case DEVICE_PCF8575:
           {
-            PCF8575 *nodeDevice = (PCF8575 *)temp->classPtr;
+            PCF8575_Artemis *nodeDevice = (PCF8575_Artemis *)temp->classPtr;
             struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr;
             if (nodeSetting->log == true)
             {

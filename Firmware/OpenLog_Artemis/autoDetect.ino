@@ -305,7 +305,7 @@ bool addDevice(deviceType_e deviceType, uint8_t address, uint8_t muxAddress, uin
       break;
     case DEVICE_PCF8575:
       {
-        temp->classPtr = new PCF8575;
+        temp->classPtr = new PCF8575_Artemis;
         temp->configPtr = new struct_PCF8575;
       }
       break;
@@ -650,7 +650,7 @@ bool beginQwiicDevices()
         break;
       case DEVICE_PCF8575:
         {
-          PCF8575 *tempDevice = (PCF8575 *)temp->classPtr;
+          PCF8575_Artemis *tempDevice = (PCF8575_Artemis *)temp->classPtr;
           struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr; //Create a local pointer that points to same spot as node does
           if (nodeSetting->powerOnDelayMillis > qwiicPowerOnDelayMillis) qwiicPowerOnDelayMillis = nodeSetting->powerOnDelayMillis; // Increase qwiicPowerOnDelayMillis if required
           if (tempDevice->begin(temp->address)) // begin and set address. Returns true if connected
@@ -1425,7 +1425,7 @@ deviceType_e testDevice(uint8_t i2cAddress, uint8_t muxAddress, uint8_t portNumb
       break;
     case 0x27:
       {
-        PCF8575 sensor;
+        PCF8575_Artemis sensor(qwiic);
         if(sensor.begin(i2cAddress))
           return (DEVICE_PCF8575);
       }
