@@ -1319,7 +1319,7 @@ void gatherDeviceValues(char * sdOutputData, size_t lenData)
             struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr;
             if (nodeSetting->log == true)
             {
-                olaftoa(nodeDevice->readPorts(), tempData1, 2, sizeof(tempData1) / sizeof(char));
+                olaftoa(nodeDevice->readPorts(), tempData1, 1, sizeof(tempData1) / sizeof(char));
                 sprintf(tempData, "%s,", tempData1);
                 strlcat(sdOutputData, tempData, lenData);
             }
@@ -1857,6 +1857,15 @@ static void getHelperText(char* helperText, size_t lenText)
                 strlcat(helperText, "A1A3mV,", lenText);
               if (nodeSetting->logA2A3)
                 strlcat(helperText, "A2A3mV,", lenText);
+            }
+          }
+          break;
+        case DEVICE_PCF8575:
+          {
+            struct_ADS1015 *nodeSetting = (struct_ADS1015 *)temp->configPtr;
+            if (nodeSetting->log)
+            {
+                strlcat(helperText, "HEX,", lenText);
             }
           }
           break;
