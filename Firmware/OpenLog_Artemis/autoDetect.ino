@@ -305,7 +305,7 @@ bool addDevice(deviceType_e deviceType, uint8_t address, uint8_t muxAddress, uin
       break;
     case DEVICE_PCF8575:
       {
-        temp->classPtr = new PCF8575_Artemis;
+        temp->classPtr = new PCF8575_Artemis(qwiic);
         temp->configPtr = new struct_PCF8575;
       }
       break;

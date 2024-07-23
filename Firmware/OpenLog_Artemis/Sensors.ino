@@ -1323,11 +1323,12 @@ void gatherDeviceValues(char * sdOutputData, size_t lenData)
                 sprintf(tempData, "%s,", tempData1);
                 strlcat(sdOutputData, tempData, lenData);
             }
+          }
           break;
         default:
           SerialPrintf2("printDeviceValue unknown device type: %s\r\n", getDeviceName(temp->deviceType));
           break;
-      }
+        }
 
     }
     temp = temp->next;
