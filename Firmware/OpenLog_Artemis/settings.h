@@ -491,7 +491,7 @@ struct struct_ADS1015 {
 struct struct_PCF8575 {
   bool log = true;
   unsigned long powerOnDelayMillis = minimumQwiicPowerOnDelay; // Wait for at least this many millis before communicating with this device. Increase if required!
-}
+};
 
 
 //This is all the settings that can be set on OpenLog. It's recorded to NVM and the config file.

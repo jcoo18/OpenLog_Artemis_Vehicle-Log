@@ -1319,7 +1319,7 @@ void gatherDeviceValues(char * sdOutputData, size_t lenData)
             struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr;
             if (nodeSetting->log == true)
             {
-                olaftoa(nodeDevice->read(), tempData1, 2, sizeof(tempData1) / sizeof(char));
+                olaftoa(nodeDevice->readPorts(), tempData1, 2, sizeof(tempData1) / sizeof(char));
                 sprintf(tempData, "%s,", tempData1);
                 strlcat(sdOutputData, tempData, lenData);
             }
