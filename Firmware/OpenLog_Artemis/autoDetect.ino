@@ -1522,6 +1522,14 @@ deviceType_e testDevice(uint8_t i2cAddress, uint8_t muxAddress, uint8_t portNumb
           return (DEVICE_ADS1015);
       }
       break;
+    case 0x50:
+      {
+        //Confidence: Low - only does a simple isConnected
+        STM32SlaveNode sensor(qwiic);
+        if(sensor.begin(i2cAddress))
+          return (DEVICE_STM32SlaveNode);
+      }
+      break;
     case 0x55:
       {
         if (settings.identifyBioSensorHubs == true)
