@@ -1090,7 +1090,7 @@ void configureDevice(node * temp)
     case DEVICE_PCF8575:
         //Nothing to configure
       break;
-    case DEVICE_I2CRECEIVER;
+    case DEVICE_I2CRECEIVER:
         //Nothing to configure
       break;
     default:
@@ -1549,7 +1549,7 @@ deviceType_e testDevice(uint8_t i2cAddress, uint8_t muxAddress, uint8_t portNumb
         //Confidence: Low - only does a simple isConnected
         I2CReceiver sensor(i2cAddress);
         if(sensor.begin(qwiic))
-          return (DEVICE_I2CReceiver);
+          return (DEVICE_I2CRECEIVER);
       }
       break;
     case 0x55:
@@ -2029,7 +2029,7 @@ const char* getDeviceName(deviceType_e deviceNumber)
       return "GPIO-PCF8575";
       break;
     case DEVICE_I2CRECEIVER:
-      return "I2C-Slave"
+      return "I2C-Slave";
       break;
     case DEVICE_UNKNOWN_DEVICE:
       return "Unknown device";

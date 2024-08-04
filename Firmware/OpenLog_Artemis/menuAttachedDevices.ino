@@ -378,7 +378,7 @@ void menuAttachedDevices()
           case DEVICE_PCF8575:
             SerialPrintf3("%s PCF8575 GPIO expander %s\r\n", strDeviceMenu, strAddress);
             break;
-          case DEVICE_I2CRECEIVE:
+          case DEVICE_I2CRECEIVER:
             SerialPrintf3("%s I2C Slave Device %s\r\n", strDeviceMenu, strAddress);
             break;
           default:
