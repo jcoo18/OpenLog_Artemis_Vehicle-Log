@@ -1325,6 +1325,27 @@ void gatherDeviceValues(char * sdOutputData, size_t lenData)
             }
           }
           break;
+        case DEVICE_I2CRECEIVER:
+          {
+            I2CReciever *nodeDevice = (I2CReciever *)temp->classPtr;
+            struct_I2CRECEIVER *nodeSetting = (struct_I2CRECEIVER *)temp->configPtr;
+            if (nodeSetting->log == true)
+            {
+              if (nodeSetting->logRPM == true)
+              {
+                olaftoa(nodeDevice->value1(), tempData1, 1, sizeof(tempData1) / sizeof(char));
+                sprintf(tempData, "%s,", tempData1);
+                strlcat(sdOutputData, tempData, lenData);
+              }
+              if (nodeSetting->logSpeed == true)
+              {
+                olaftoa(nodeDevice->value2(), tempData1, 1, sizeof(tempData1) / sizeof(char));
+                sprintf(tempData, "%s,", tempData1);
+                strlcat(sdOutputData, tempData, lenData);
+              }
+            }
+          }
+          break;
         default:
           SerialPrintf2("printDeviceValue unknown device type: %s\r\n", getDeviceName(temp->deviceType));
           break;
@@ -1866,6 +1887,18 @@ static void getHelperText(char* helperText, size_t lenText)
             if (nodeSetting->log)
             {
                 strlcat(helperText, "HEX,", lenText);
+            }
+          }
+          break;
+        case DEVICE_I2CRECEIVER:
+          {
+            struct_I2CRECEIVER *nodeSetting = (struct_I2CRECEIVER *)temp->configPtr;
+            if (nodeSetting->log)
+            {
+              if (nodeSetting->logRPM)
+                strlcat(helperText, "RPM,", lenText);
+              if (nodeSetting->logSpeed)
+                strlcat(helperText, "Speed,", lenText);
             }
           }
           break;

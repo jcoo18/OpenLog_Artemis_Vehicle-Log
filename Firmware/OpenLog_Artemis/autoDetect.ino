@@ -309,6 +309,12 @@ bool addDevice(deviceType_e deviceType, uint8_t address, uint8_t muxAddress, uin
         temp->configPtr = new struct_PCF8575;
       }
       break;
+    case DEVICE_I2CRECEIVER:
+      {
+        temp->classPtr = new I2CReceiver(address);
+        temp->configPtr = new struct_I2CRECEIVER;
+      }
+      break;
     default:
       SerialPrintf2("addDevice Device type not found: %d\r\n", deviceType);
       break;
@@ -654,6 +660,15 @@ bool beginQwiicDevices()
           struct_PCF8575 *nodeSetting = (struct_PCF8575 *)temp->configPtr; //Create a local pointer that points to same spot as node does
           if (nodeSetting->powerOnDelayMillis > qwiicPowerOnDelayMillis) qwiicPowerOnDelayMillis = nodeSetting->powerOnDelayMillis; // Increase qwiicPowerOnDelayMillis if required
           if (tempDevice->begin(temp->address)) // begin and set address. Returns true if connected
+            temp->online = true;
+        }
+        break;
+      case DEVICE_I2CRECEIVER:
+        {
+          I2CReceiver *tempDevice = (I2CReceiver *)temp->classPtr;
+          struct_I2CRECEIVER *nodeSetting = (struct_I2CRECEIVER *)temp->configPtr; //Create a local pointer that points to same spot as node does
+          if (nodeSetting->powerOnDelayMillis > qwiicPowerOnDelayMillis) qwiicPowerOnDelayMillis = nodeSetting->powerOnDelayMillis; // Increase qwiicPowerOnDelayMillis if required
+          if (tempDevice->begin(qwiic)) // begin and on the wire port. Returns true if connected
             temp->online = true;
         }
         break;
@@ -1075,6 +1090,9 @@ void configureDevice(node * temp)
     case DEVICE_PCF8575:
         //Nothing to configure
       break;
+    case DEVICE_I2CRECEIVER;
+        //Nothing to configure
+      break;
     default:
       SerialPrintf3("configureDevice: Unknown device type %d: %s\r\n", deviceType, getDeviceName((deviceType_e)deviceType));
       break;
@@ -1204,6 +1222,9 @@ FunctionPointer getConfigFunctionPtr(uint8_t nodeNumber)
       break;
     case DEVICE_PCF8575:
       ptr = (FunctionPointer)menuConfigure_PCF8575;
+      break;
+    case DEVICE_I2CRECEIVER:
+      ptr = (FunctionPointer)menuConfigure_I2CRECEIVER;
       break;
     default:
       SerialPrintln(F("getConfigFunctionPtr: Unknown device type"));
@@ -1365,6 +1386,7 @@ void swap(struct node * a, struct node * b)
 //#define ADR_MS8607 0x76 //Pressure portion of the MS8607 sensor. We'll catch the 0x40 first
 #define ADR_BME280 0x77 //Alternates: 0x76
 #define ADR_PCF8575 0x27  // All address lines pulled high
+#define ADR_I2CRECEIVER 0x50  // Slave settable address
 
 //Given an address, returns the device type if it responds as we would expect
 //Does not test for multiplexers. See testMuxDevice for dedicated mux testing.
@@ -1525,9 +1547,9 @@ deviceType_e testDevice(uint8_t i2cAddress, uint8_t muxAddress, uint8_t portNumb
     case 0x50:
       {
         //Confidence: Low - only does a simple isConnected
-        STM32SlaveNode sensor(qwiic);
-        if(sensor.begin(i2cAddress))
-          return (DEVICE_STM32SlaveNode);
+        I2CReceiver sensor(i2cAddress);
+        if(sensor.begin(qwiic))
+          return (DEVICE_I2CReceiver);
       }
       break;
     case 0x55:
@@ -2006,7 +2028,9 @@ const char* getDeviceName(deviceType_e deviceNumber)
     case DEVICE_PCF8575:
       return "GPIO-PCF8575";
       break;
-
+    case DEVICE_I2CRECEIVER:
+      return "I2C-Slave"
+      break;
     case DEVICE_UNKNOWN_DEVICE:
       return "Unknown device";
       break;

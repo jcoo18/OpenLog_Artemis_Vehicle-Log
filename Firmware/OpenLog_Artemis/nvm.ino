@@ -869,6 +869,14 @@ void recordDeviceSettingsToFile()
             settingsFile.println((String)base + "log=" + nodeSetting->log);
           }
           break;
+        case DEVICE_I2CRECEIVER:
+          {
+            struct_I2CRECEIVER *nodeSetting = (struct_I2CRECEIVER *)temp->configPtr;
+            settingsFile.println((String)base + "log=" + nodeSetting->log);
+            settingsFile.println((String)base + "logRPM=" + nodeSetting->logRPM);
+            settingsFile.println((String)base + "logSpeed=" + nodeSetting->logSpeed);
+          }
+          break;
         default:
           SerialPrintf2("recordSettingsToFile Unknown device: %s\r\n", base);
           //settingsFile.println((String)base + "=UnknownDeviceSettings");
@@ -1639,6 +1647,19 @@ bool parseDeviceLine(char* str) {
           struct_PCF8575 *nodeSetting = (struct_PCF8575 *)deviceConfigPtr; //Create a local pointer that points to same spot as node does
           if (strcmp(deviceSettingName, "log") == 0)
             nodeSetting->log = d;
+          else
+            SerialPrintf2("Unknown device setting: %s\r\n", deviceSettingName);
+        }
+        break;
+      case DEVICE_I2CRECEIVER:
+        {
+          struct_I2CRECEIVER *nodeSetting = (struct_I2CRECEIVER *)deviceConfigPtr; //Create a local pointer that points to same spot as node does
+          if (strcmp(deviceSettingName, "log") == 0)
+            nodeSetting->log = d;
+          else if (strcmp(deviceSettingName, "logRPM") == 0)
+            nodeSetting->logRPM = d;
+          else if (strcmp(deviceSettingName, "logSpeed") == 0)
+            nodeSetting->logSpeed = d;
           else
             SerialPrintf2("Unknown device setting: %s\r\n", deviceSettingName);
         }

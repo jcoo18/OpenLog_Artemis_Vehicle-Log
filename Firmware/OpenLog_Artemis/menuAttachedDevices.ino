@@ -378,7 +378,9 @@ void menuAttachedDevices()
           case DEVICE_PCF8575:
             SerialPrintf3("%s PCF8575 GPIO expander %s\r\n", strDeviceMenu, strAddress);
             break;
-
+          case DEVICE_I2CRECEIVE:
+            SerialPrintf3("%s I2C Slave Device %s\r\n", strDeviceMenu, strAddress);
+            break;
           default:
             SerialPrintf2("Unknown device type %d in menuAttachedDevices\r\n", temp->deviceType);
             break;
@@ -3536,6 +3538,44 @@ void menuConfigure_PCF8575(void *configPtr)
     // Flip the option 1 setting vairable if 1 input
     if (incoming == 1)
       sensorSetting->log ^= 1;
+    else if (incoming == STATUS_PRESSED_X)
+      break;
+    else if (incoming == STATUS_GETNUMBER_TIMEOUT)
+      break;
+    else
+      printUnknown(incoming);
+  }
+}
+
+void menuConfigure_I2CRECEIVER(void *configPtr)
+{
+  struct_I2CRECEIVER *sensorSetting = (struct_I2CRECEIVER *)configPtr;
+
+  while (1)
+  {
+    SerialPrintln(F(""));
+    SerialPrintln(F("Menu: Configure I2C slave receiver"));
+
+    SerialPrint(F("1) Sensor Logging: "));
+    if (sensorSetting->log == true) SerialPrintln(F("Enabled"));
+    else SerialPrintln(F("Disabled"));
+    SerialPrint(F("2) RPM Logging: "));
+    if (sensorSetting->logRPM == true) SerialPrintln(F("Enabled"));
+    else SerialPrintln(F("Disabled"));
+    SerialPrint(F("3) Speed Logging: "));
+    if (sensorSetting->logSpeed == true) SerialPrintln(F("Enabled"));
+    else SerialPrintln(F("Disabled"));
+    SerialPrintln(F("x) Exit"));
+
+    int incoming = getNumber(menuTimeout); //Timeout after x seconds
+
+    // Flip the option 1 setting vairable if 1 input
+    if (incoming == 1)
+      sensorSetting->log ^= 1;
+    else if (incoming == 2)
+      sensorSetting->logRPM ^= 1;
+    else if (incoming == 3)
+      sensorSetting->logRPM ^= 1;
     else if (incoming == STATUS_PRESSED_X)
       break;
     else if (incoming == STATUS_GETNUMBER_TIMEOUT)
