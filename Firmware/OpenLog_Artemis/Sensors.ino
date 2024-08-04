@@ -1327,7 +1327,7 @@ void gatherDeviceValues(char * sdOutputData, size_t lenData)
           break;
         case DEVICE_I2CRECEIVER:
           {
-            I2CReciever *nodeDevice = (I2CReciever *)temp->classPtr;
+            I2CReceiver *nodeDevice = (I2CReceiver *)temp->classPtr;
             struct_I2CRECEIVER *nodeSetting = (struct_I2CRECEIVER *)temp->configPtr;
             if (nodeSetting->log == true)
             {
