@@ -6,12 +6,16 @@ void menuLogRate()
     SerialPrintln(F("Menu: Configure Terminal Output"));
 
     SerialPrint(F("1) Log to microSD: "));
-    if (settings.logData == true) SerialPrintln(F("Enabled"));
-    else SerialPrintln(F("Disabled"));
+    if (settings.logData == true)
+      SerialPrintln(F("Enabled"));
+    else
+      SerialPrintln(F("Disabled"));
 
     SerialPrint(F("2) Log to Terminal: "));
-    if (settings.enableTerminalOutput == true) SerialPrintln(F("Enabled"));
-    else SerialPrintln(F("Disabled"));
+    if (settings.enableTerminalOutput == true)
+      SerialPrintln(F("Enabled"));
+    else
+      SerialPrintln(F("Disabled"));
 
     SerialPrint(F("3) Set Serial Terminal Baud Rate: "));
     Serial.print(settings.serialTerminalBaudRate);
@@ -22,30 +26,32 @@ void menuLogRate()
     if (settings.useGPIO11ForTrigger == false)
     {
       SerialPrint(F("4) Set Log Rate in Hz: "));
-      if (settings.logMaxRate == true) SerialPrintln(F("Max rate enabled"));
+      if (settings.logMaxRate == true)
+        SerialPrintln(F("Max rate enabled"));
       else
       {
-        if (settings.usBetweenReadings < 1000000ULL) //Take more than one measurement per second
+        if (settings.usBetweenReadings < 1000000ULL) // Take more than one measurement per second
         {
-          //Display Integer Hertz
+          // Display Integer Hertz
           int logRate = (int)(1000000ULL / settings.usBetweenReadings);
           SerialPrintf2("%d\r\n", logRate);
         }
         else
         {
-          //Display fractional Hertz
+          // Display fractional Hertz
           uint32_t logRateSeconds = (uint32_t)(settings.usBetweenReadings / 1000000ULL);
           char tempStr[16];
           olaftoa(1.0 / logRateSeconds, tempStr, 6, sizeof(tempStr) / sizeof(char));
           SerialPrintf2("%s\r\n", tempStr);
         }
       }
-  
+
       SerialPrint(F("5) Set Log Rate in seconds between readings: "));
-      if (settings.logMaxRate == true) SerialPrintln(F("Max rate enabled"));
+      if (settings.logMaxRate == true)
+        SerialPrintln(F("Max rate enabled"));
       else
       {
-        if (settings.usBetweenReadings > 1000000ULL) //Take more than one measurement per second
+        if (settings.usBetweenReadings > 1000000ULL) // Take more than one measurement per second
         {
           uint32_t interval = (uint32_t)(settings.usBetweenReadings / 1000000ULL);
           SerialPrintf2("%d\r\n", interval);
@@ -58,40 +64,56 @@ void menuLogRate()
           SerialPrintf2("%s\r\n", tempStr);
         }
       }
-  
+
       SerialPrint(F("6) Enable maximum logging: "));
-      if (settings.logMaxRate == true) SerialPrintln(F("Enabled"));
-      else SerialPrintln(F("Disabled"));
+      if (settings.logMaxRate == true)
+        SerialPrintln(F("Enabled"));
+      else
+        SerialPrintln(F("Disabled"));
     }
 
     SerialPrint(F("7) Output Actual Hertz: "));
-    if (settings.logHertz == true) SerialPrintln(F("Enabled"));
-    else SerialPrintln(F("Disabled"));
+    if (settings.logHertz == true)
+      SerialPrintln(F("Enabled"));
+    else
+      SerialPrintln(F("Disabled"));
 
     SerialPrint(F("8) Output Column Titles: "));
-    if (settings.showHelperText == true) SerialPrintln(F("Enabled"));
-    else SerialPrintln(F("Disabled"));
+    if (settings.showHelperText == true)
+      SerialPrintln(F("Enabled"));
+    else
+      SerialPrintln(F("Disabled"));
 
     SerialPrint(F("9) Output Measurement Count: "));
-    if (settings.printMeasurementCount == true) SerialPrintln(F("Enabled"));
-    else SerialPrintln(F("Disabled"));
+    if (settings.printMeasurementCount == true)
+      SerialPrintln(F("Enabled"));
+    else
+      SerialPrintln(F("Disabled"));
 
     SerialPrint(F("10) Open New Log Files After (s): "));
     SerialPrintf2("%d", settings.openNewLogFilesAfter);
-    if (settings.openNewLogFilesAfter == 0) SerialPrintln(F(" (Never)"));
-    else SerialPrintln(F(""));
+    if (settings.openNewLogFilesAfter == 0)
+      SerialPrintln(F(" (Never)"));
+    else
+      SerialPrintln(F(""));
 
     SerialPrint(F("11) Frequent log file access timestamps: "));
-    if (settings.frequentFileAccessTimestamps == true) SerialPrintln(F("Enabled"));
-    else SerialPrintln(F("Disabled"));
+    if (settings.frequentFileAccessTimestamps == true)
+      SerialPrintln(F("Enabled"));
+    else
+      SerialPrintln(F("Disabled"));
 
     SerialPrint(F("12) Use pin 11 to trigger logging: "));
-    if (settings.useGPIO11ForTrigger == true) SerialPrintln(F("Yes"));
-    else SerialPrintln(F("No"));
+    if (settings.useGPIO11ForTrigger == true)
+      SerialPrintln(F("Yes"));
+    else
+      SerialPrintln(F("No"));
 
     SerialPrint(F("13) Logging is triggered when the signal on pin 11 is: "));
-    if (settings.fallingEdgeTrigger == true) SerialPrintln(F("Falling"));
-    else SerialPrintln(F("Rising"));
+    if (settings.fallingEdgeTrigger == true)
+      SerialPrintln(F("Falling"));
+    else
+      SerialPrintln(F("Rising"));
 
     SerialPrint(F("14) Use TX and RX pins for Terminal: "));
     if (settings.useTxRxPinsForTerminal == true)
@@ -100,22 +122,29 @@ void menuLogRate()
       SerialPrintln(F("                                     Analog logging on TX/A12 and RX/A13 is permanently disabled"));
       SerialPrintln(F("                                     Serial logging on RX/A13 is permanently disabled"));
     }
-    else SerialPrintln(F("Disabled"));
+    else
+      SerialPrintln(F("Disabled"));
 
     SerialPrint(F("15) Use Pin 11 to control fast/slow logging: "));
-    if (settings.useGPIO11ForFastSlowLogging == true) SerialPrintln(F("Yes"));
-    else SerialPrintln(F("No"));
+    if (settings.useGPIO11ForFastSlowLogging == true)
+      SerialPrintln(F("Yes"));
+    else
+      SerialPrintln(F("No"));
 
     if (settings.useGPIO11ForFastSlowLogging == true)
     {
       SerialPrint(F("16) Log slowly when Pin 11 is: "));
-      if (settings.slowLoggingWhenPin11Is == true) SerialPrintln(F("High"));
-      else SerialPrintln(F("Low"));
+      if (settings.slowLoggingWhenPin11Is == true)
+        SerialPrintln(F("High"));
+      else
+        SerialPrintln(F("Low"));
     }
 
     SerialPrint(F("17) Use RTC to control fast/slow logging: "));
-    if (settings.useRTCForFastSlowLogging == true) SerialPrintln(F("Yes"));
-    else SerialPrintln(F("No"));
+    if (settings.useRTCForFastSlowLogging == true)
+      SerialPrintln(F("Yes"));
+    else
+      SerialPrintln(F("No"));
 
     if ((settings.useGPIO11ForFastSlowLogging == true) || (settings.useRTCForFastSlowLogging == true))
     {
@@ -159,10 +188,18 @@ void menuLogRate()
       SerialPrint(F("21) Minimum awake time between sleeps: "));
       SerialPrintf2("%dms\r\n", settings.minimumAwakeTimeMillis);
     }
+    if ((settings.useGPIO11ForTrigger == false) && (settings.useGPIO11ForFastSlowLogging == false))
+    {
+      SerialPrint(F("22) Use pin 11 for external status indicator: "));
+      if (settings.useGPIO11ForStat == true)
+        SerialPrintln(F("Enabled"));
+      else
+        SerialPrintln(F("Disabled"));
+    }
 
     SerialPrintln(F("x) Exit"));
 
-    int incoming = getNumber(menuTimeout); //Timeout after x seconds
+    int incoming = getNumber(menuTimeout); // Timeout after x seconds
 
     if (incoming == 1)
       settings.logData ^= 1;
@@ -171,7 +208,7 @@ void menuLogRate()
     else if (incoming == 3)
     {
       SerialPrint(F("Enter baud rate (1200 to 500000): "));
-      int newBaud = getNumber(menuTimeout); //Timeout after x seconds
+      int newBaud = getNumber(menuTimeout); // Timeout after x seconds
       if (newBaud < 1200 || newBaud > 500000)
       {
         SerialPrintln(F("Error: baud rate out of range"));
@@ -179,10 +216,11 @@ void menuLogRate()
       else
       {
         settings.serialTerminalBaudRate = newBaud;
-        recordSystemSettings(); //Normally recorded upon all menu exits
-        recordDeviceSettingsToFile(); //Normally recorded upon all menu exits
+        recordSystemSettings();       // Normally recorded upon all menu exits
+        recordDeviceSettingsToFile(); // Normally recorded upon all menu exits
         SerialPrintf2("Terminal now set at %dbps. Please reset device and open terminal at new baud rate. Freezing...\r\n", settings.serialTerminalBaudRate);
-        while (1);
+        while (1)
+          ;
       }
     }
     else if (incoming == 4)
@@ -190,12 +228,13 @@ void menuLogRate()
       if (settings.useGPIO11ForTrigger == false)
       {
         int maxOutputRate = settings.serialTerminalBaudRate / 10 / (totalCharactersPrinted / measurementCount);
-        maxOutputRate = (maxOutputRate * 90) / 100; //Fudge reduction of 10%
-  
-        if (maxOutputRate < 10) maxOutputRate = 10; //TODO this is forced. Needed when multi seconds between readings.
-  
+        maxOutputRate = (maxOutputRate * 90) / 100; // Fudge reduction of 10%
+
+        if (maxOutputRate < 10)
+          maxOutputRate = 10; // TODO this is forced. Needed when multi seconds between readings.
+
         SerialPrintf2("How many readings per second would you like to log? (Current max is %d): ", maxOutputRate);
-        int tempRPS = getNumber(menuTimeout); //Timeout after x seconds
+        int tempRPS = getNumber(menuTimeout); // Timeout after x seconds
         if (tempRPS < 1 || tempRPS > maxOutputRate)
           SerialPrintln(F("Error: Readings Per Second out of range"));
         else
@@ -206,11 +245,11 @@ void menuLogRate()
     {
       if (settings.useGPIO11ForTrigger == false)
       {
-        //The Deep Sleep duration is set with am_hal_stimer_compare_delta_set, the duration of which is uint32_t
-        //So the maximum we can sleep for is 2^32 / 32768 = 131072 seconds = 36.4 hours
-        //Let's limit this to 36 hours = 129600 seconds
+        // The Deep Sleep duration is set with am_hal_stimer_compare_delta_set, the duration of which is uint32_t
+        // So the maximum we can sleep for is 2^32 / 32768 = 131072 seconds = 36.4 hours
+        // Let's limit this to 36 hours = 129600 seconds
         SerialPrintln(F("How many seconds would you like to wait between readings? (1 to 129,600):"));
-        int64_t tempSeconds = getNumber(menuTimeout); //Timeout after x seconds
+        int64_t tempSeconds = getNumber(menuTimeout); // Timeout after x seconds
         if (tempSeconds < 1 || tempSeconds > 129600)
           SerialPrintln(F("Error: logging interval out of range"));
         else
@@ -240,24 +279,25 @@ void menuLogRate()
             settings.logSerial = false;
             settings.enableTerminalOutput = false;
             settings.enableIMU = false;
-  
-            //Close files on SD to be sure they are recorded fully
+
+            // Close files on SD to be sure they are recorded fully
             updateDataFileAccess(&serialDataFile); // Update the file access time & date
             serialDataFile.close();
-            updateDataFileAccess(&sensorDataFile); // Update the file access time & date          
+            updateDataFileAccess(&sensorDataFile); // Update the file access time & date
             sensorDataFile.close();
-  
-            recordSystemSettings(); //Normally recorded upon all menu exits
-            recordDeviceSettingsToFile(); //Normally recorded upon all menu exits
-  
+
+            recordSystemSettings();       // Normally recorded upon all menu exits
+            recordDeviceSettingsToFile(); // Normally recorded upon all menu exits
+
             SerialPrintln(F("OpenLog Artemis configured for max data rate. Please reset. Freezing..."));
-            while (1);
+            while (1)
+              ;
           }
         }
         else
         {
           settings.logMaxRate = false;
-          //settings.usBetweenReadings = 100000ULL; //Default to 100,000us = 100ms = 10 readings per second.
+          // settings.usBetweenReadings = 100000ULL; //Default to 100,000us = 100ms = 10 readings per second.
         }
       }
     }
@@ -270,7 +310,7 @@ void menuLogRate()
     else if (incoming == 10)
     {
       SerialPrintln(F("Open new log files after this many seconds (0 or 10 to 129,600) (0 = Never):"));
-      int64_t tempSeconds = getNumber(menuTimeout); //Timeout after x seconds
+      int64_t tempSeconds = getNumber(menuTimeout); // Timeout after x seconds
       if ((tempSeconds < 0) || ((tempSeconds > 0) && (tempSeconds < 10)) || (tempSeconds > 129600ULL))
         SerialPrintln(F("Error: Invalid interval"));
       else
@@ -286,18 +326,19 @@ void menuLogRate()
         {
           // Disable triggering
           settings.useGPIO11ForTrigger = false;
-          detachInterrupt(PIN_TRIGGER); // Disable the interrupt
-          pinMode(PIN_TRIGGER, INPUT); // Remove the pull-up
+          detachInterrupt(PIN_TRIGGER);                          // Disable the interrupt
+          pinMode(PIN_TRIGGER, INPUT);                           // Remove the pull-up
           pin_config(PinName(PIN_TRIGGER), g_AM_HAL_GPIO_INPUT); // Make sure the pin does actually get re-configured
-          triggerEdgeSeen = false; // Make sure the flag is clear
+          triggerEdgeSeen = false;                               // Make sure the flag is clear
         }
         else
         {
           // Enable triggering
+          settings.useGPIO11ForStat = false;
           settings.useGPIO11ForTrigger = true;
           pinMode(PIN_TRIGGER, INPUT_PULLUP);
           pin_config(PinName(PIN_TRIGGER), g_AM_HAL_GPIO_INPUT_PULLUP); // Make sure the pin does actually get re-configured
-          delay(1); // Let the pin stabilize
+          delay(1);                                                     // Let the pin stabilize
           am_hal_gpio_pincfg_t intPinConfig = g_AM_HAL_GPIO_INPUT_PULLUP;
           if (settings.fallingEdgeTrigger == true)
           {
@@ -310,9 +351,9 @@ void menuLogRate()
             intPinConfig.eIntDir = AM_HAL_GPIO_PIN_INTDIR_LO2HI;
           }
           pin_config(PinName(PIN_TRIGGER), intPinConfig); // Make sure the pull-up does actually stay enabled
-          triggerEdgeSeen = false; // Make sure the flag is clear
-          settings.logA11 = false; // Disable analog logging on pin 11
-          settings.logMaxRate = false; // Disable max rate logging
+          triggerEdgeSeen = false;                        // Make sure the flag is clear
+          settings.logA11 = false;                        // Disable analog logging on pin 11
+          settings.logMaxRate = false;                    // Disable max rate logging
           settings.useGPIO11ForFastSlowLogging = false;
           settings.useRTCForFastSlowLogging = false;
         }
@@ -322,7 +363,7 @@ void menuLogRate()
         SerialPrintln(F(""));
         SerialPrintln(F("Triggering on pin 11 is not possible. \"Detect Bio Sensor Pulse Oximeter\" is enabled."));
         SerialPrintln(F(""));
-      }      
+      }
     }
     else if (incoming == 13)
     {
@@ -330,7 +371,7 @@ void menuLogRate()
       {
         if (settings.useGPIO11ForTrigger == true) // If interrupts are enabled, we need to disable and then re-enable
         {
-          detachInterrupt(PIN_TRIGGER); // Disable the interrupt
+          detachInterrupt(PIN_TRIGGER);     // Disable the interrupt
           settings.fallingEdgeTrigger ^= 1; // Invert the flag
           am_hal_gpio_pincfg_t intPinConfig = g_AM_HAL_GPIO_INPUT_PULLUP;
           if (settings.fallingEdgeTrigger == true)
@@ -344,7 +385,7 @@ void menuLogRate()
             intPinConfig.eIntDir = AM_HAL_GPIO_PIN_INTDIR_LO2HI;
           }
           pin_config(PinName(PIN_TRIGGER), intPinConfig); // Make sure the pull-up does actually stay enabled
-          triggerEdgeSeen = false; // Make sure the flag is clear
+          triggerEdgeSeen = false;                        // Make sure the flag is clear
         }
         else
           settings.fallingEdgeTrigger ^= 1; // Interrupt is not currently enabled so simply invert the flag
@@ -354,7 +395,7 @@ void menuLogRate()
         SerialPrintln(F(""));
         SerialPrintln(F("Triggering on pin 11 is not possible. \"Detect Bio Sensor Pulse Oximeter\" is enabled."));
         SerialPrintln(F(""));
-      }      
+      }
     }
     else if (incoming == 14)
     {
@@ -382,7 +423,7 @@ void menuLogRate()
           settings.logA12 = false;
           settings.logA13 = false;
 
-          //We need to manually restore the Serial1 TX and RX pins before we can use Serial1
+          // We need to manually restore the Serial1 TX and RX pins before we can use Serial1
           configureSerial1TxRx();
 
           Serial1.begin(settings.serialTerminalBaudRate); // (Re)Start the serial port using the terminal baud rate
@@ -404,24 +445,25 @@ void menuLogRate()
       {
         if (settings.useGPIO11ForFastSlowLogging == false) // If the user is trying to enable Pin 11 fast / slow logging
         {
+          settings.useGPIO11ForStat = false;
           settings.useGPIO11ForFastSlowLogging = true;
           settings.useRTCForFastSlowLogging = false;
           settings.logA11 = false; // Disable analog logging on pin 11
           pinMode(PIN_TRIGGER, INPUT_PULLUP);
           pin_config(PinName(PIN_TRIGGER), g_AM_HAL_GPIO_INPUT_PULLUP); // Make sure the pin does actually get re-configured
-          delay(1); // Let the pin stabilize
+          delay(1);                                                     // Let the pin stabilize
           // Disable triggering
           if (settings.useGPIO11ForTrigger == true)
           {
             detachInterrupt(PIN_TRIGGER); // Disable the interrupt
-            triggerEdgeSeen = false; // Make sure the flag is clear
+            triggerEdgeSeen = false;      // Make sure the flag is clear
           }
           settings.useGPIO11ForTrigger = false;
         }
         else // If the user is trying to disable Pin 11 fast / slow logging
         {
-          settings.useGPIO11ForFastSlowLogging = false;        
-          pinMode(PIN_TRIGGER, INPUT); // Remove the pull-up
+          settings.useGPIO11ForFastSlowLogging = false;
+          pinMode(PIN_TRIGGER, INPUT);                           // Remove the pull-up
           pin_config(PinName(PIN_TRIGGER), g_AM_HAL_GPIO_INPUT); // Make sure the pin does actually get re-configured
         }
       }
@@ -430,7 +472,7 @@ void menuLogRate()
         SerialPrintln(F(""));
         SerialPrintln(F("Fast / slow logging via pin 11 is not possible. \"Detect Bio Sensor Pulse Oximeter\" is enabled."));
         SerialPrintln(F(""));
-      }              
+      }
     }
     else if (incoming == 16)
     {
@@ -443,8 +485,8 @@ void menuLogRate()
       }
       else // If the user is trying to disable Pin 11 fast / slow logging
       {
-        settings.useGPIO11ForFastSlowLogging = false;        
-        pinMode(PIN_TRIGGER, INPUT); // Remove the pull-up
+        settings.useGPIO11ForFastSlowLogging = false;
+        pinMode(PIN_TRIGGER, INPUT);                           // Remove the pull-up
         pin_config(PinName(PIN_TRIGGER), g_AM_HAL_GPIO_INPUT); // Make sure the pin does actually get re-configured
       }
     }
@@ -455,7 +497,7 @@ void menuLogRate()
         settings.useRTCForFastSlowLogging = true;
         if (settings.useGPIO11ForFastSlowLogging == true)
         {
-          pinMode(PIN_TRIGGER, INPUT); // Remove the pull-up
+          pinMode(PIN_TRIGGER, INPUT);                           // Remove the pull-up
           pin_config(PinName(PIN_TRIGGER), g_AM_HAL_GPIO_INPUT); // Make sure the pin does actually get re-configured
         }
         settings.useGPIO11ForFastSlowLogging = false;
@@ -463,72 +505,72 @@ void menuLogRate()
         // Disable triggering
         if (settings.useGPIO11ForTrigger == true)
         {
-          detachInterrupt(PIN_TRIGGER); // Disable the interrupt
-          pinMode(PIN_TRIGGER, INPUT); // Remove the pull-up
+          detachInterrupt(PIN_TRIGGER);                          // Disable the interrupt
+          pinMode(PIN_TRIGGER, INPUT);                           // Remove the pull-up
           pin_config(PinName(PIN_TRIGGER), g_AM_HAL_GPIO_INPUT); // Make sure the pin does actually get re-configured
-          triggerEdgeSeen = false; // Make sure the flag is clear
+          triggerEdgeSeen = false;                               // Make sure the flag is clear
         }
         settings.useGPIO11ForTrigger = false;
       }
       else // If the user is trying to disable RTC fast / slow logging
       {
-        settings.useRTCForFastSlowLogging = false;        
+        settings.useRTCForFastSlowLogging = false;
       }
     }
     else if (incoming == 18)
     {
       if ((settings.useGPIO11ForFastSlowLogging == true) || (settings.useRTCForFastSlowLogging == true))
       {
-        //The Deep Sleep duration is set with am_hal_stimer_compare_delta_set, the duration of which is uint32_t
-        //So the maximum we can sleep for is 2^32 / 32768 = 131072 seconds = 36.4 hours
-        //Let's limit this to 36 hours = 129600 seconds
+        // The Deep Sleep duration is set with am_hal_stimer_compare_delta_set, the duration of which is uint32_t
+        // So the maximum we can sleep for is 2^32 / 32768 = 131072 seconds = 36.4 hours
+        // Let's limit this to 36 hours = 129600 seconds
         SerialPrintln(F("How many seconds would you like to sleep between readings? (5 to 129,600):"));
-        int64_t tempSeconds = getNumber(menuTimeout); //Timeout after x seconds
+        int64_t tempSeconds = getNumber(menuTimeout); // Timeout after x seconds
         if (tempSeconds < 5 || tempSeconds > 129600)
           SerialPrintln(F("Error: sleep interval out of range"));
         else
           settings.slowLoggingIntervalSeconds = (int)tempSeconds;
-      }      
+      }
     }
     else if (incoming == 19)
     {
       if (settings.useRTCForFastSlowLogging == true)
       {
         SerialPrintln(F("Enter the Hour slow logging should start (0 to 23):"));
-        int64_t tempMOD = getNumber(menuTimeout); //Timeout after x seconds
+        int64_t tempMOD = getNumber(menuTimeout); // Timeout after x seconds
         if (tempMOD < 0 || tempMOD > 23)
           SerialPrintln(F("Error: time out of range"));
         else
         {
           settings.slowLoggingStartMOD = (int)tempMOD * 60; // Convert to minutes
           SerialPrintln(F("\r\nEnter the Minute slow logging should start (0 to 59):"));
-          tempMOD = getNumber(menuTimeout); //Timeout after x seconds
+          tempMOD = getNumber(menuTimeout); // Timeout after x seconds
           if (tempMOD < 0 || tempMOD > 59)
             SerialPrintln(F("Error: time out of range"));
           else
             settings.slowLoggingStartMOD += (int)tempMOD;
         }
-      }      
+      }
     }
     else if (incoming == 20)
     {
       if (settings.useRTCForFastSlowLogging == true)
       {
         SerialPrintln(F("Enter the Hour slow logging should end (0 to 23):"));
-        int64_t tempMOD = getNumber(menuTimeout); //Timeout after x seconds
+        int64_t tempMOD = getNumber(menuTimeout); // Timeout after x seconds
         if (tempMOD < 0 || tempMOD > 23)
           SerialPrintln(F("Error: time out of range"));
         else
         {
           settings.slowLoggingStopMOD = (int)tempMOD * 60; // Convert to minutes
           SerialPrintln(F("\r\nEnter the Minute slow logging should end (0 to 59):"));
-          tempMOD = getNumber(menuTimeout); //Timeout after x seconds
+          tempMOD = getNumber(menuTimeout); // Timeout after x seconds
           if (tempMOD < 0 || tempMOD > 59)
             SerialPrintln(F("Error: time out of range"));
           else
             settings.slowLoggingStopMOD += (int)tempMOD;
         }
-      }      
+      }
     }
     else if (incoming == 21)
     {
@@ -539,7 +581,7 @@ void menuLogRate()
           // Limit minimumAwakeTimeMillis to usBetweenReadings minus one second
           unsigned long maxAwakeMillis = (unsigned long)((settings.usBetweenReadings / 1000ULL) - 1000ULL);
           SerialPrintf2("Enter minimum awake time (ms: 0 to %d): : ", maxAwakeMillis);
-          int newAwake = getNumber(menuTimeout); //Timeout after x seconds
+          int newAwake = getNumber(menuTimeout); // Timeout after x seconds
           if (newAwake < 0 || newAwake > maxAwakeMillis)
           {
             SerialPrintln(F("Error: awake time out of range"));
@@ -548,6 +590,21 @@ void menuLogRate()
           {
             settings.minimumAwakeTimeMillis = newAwake;
           }
+        }
+      }
+    }
+    else if (incoming == 22)
+    {
+      if ((settings.useGPIO11ForTrigger == false) && (settings.useGPIO11ForFastSlowLogging == false))
+      {
+        settings.useGPIO11ForStat ^= 1;
+        if(settings.useGPIO11ForStat == true)
+        {
+          pinMode(PIN_EXT_STAT, OUTPUT);
+          delay(1); // Let the pin stabilize
+        }
+        else{
+          pinMode(PIN_EXT_STAT, INPUT_PULLUP);
         }
       }
     }

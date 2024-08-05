@@ -216,6 +216,7 @@ const byte BREAKOUT_PIN_11 = 11;
 const byte PIN_TRIGGER = 11;
 const byte PIN_QWIIC_SCL = 8;
 const byte PIN_QWIIC_SDA = 9;
+const byte PIN_EXT_STAT = 11; // External status indicator
 
 const byte PIN_SPI_SCK = 5;
 const byte PIN_SPI_CIPO = 6;
@@ -525,6 +526,12 @@ void setup() {
     pin_config(PinName(PIN_TRIGGER), intPinConfig); // Make sure the pull-up does actually stay enabled
     triggerEdgeSeen = false; // Make sure the flag is clear
   }
+  else if(settings.useGPIO11ForStat == true)
+  {
+    pinMode(PIN_EXT_STAT, OUTPUT);
+    delay(1); // Let the pin stabilize
+    digitalWrite(PIN_EXT_STAT, HIGH);
+  }
 
   analogReadResolution(14); //Increase from default of 10
 
@@ -592,6 +599,8 @@ void setup() {
   measurementStartTime = rtcMillis();
 
   digitalWrite(PIN_STAT_LED, LOW); // Turn the STAT LED off now that everything is configured
+  if(settings.useGPIO11ForStat == true)
+      digitalWrite(PIN_EXT_STAT, LOW);
 
   lastAwakeTimeMillis = rtcMillis();
 
@@ -648,8 +657,12 @@ void loop() {
         if (incomingBufferSpot == sizeof(incomingBuffer))
         {
           digitalWrite(PIN_STAT_LED, HIGH); //Toggle stat LED to indicating log recording
+          if(settings.useGPIO11ForStat == true)
+            digitalWrite(PIN_EXT_STAT, HIGH);
           serialDataFile.write(incomingBuffer, sizeof(incomingBuffer)); //Record the buffer to the card
           digitalWrite(PIN_STAT_LED, LOW);
+          if(settings.useGPIO11ForStat == true)
+            digitalWrite(PIN_EXT_STAT, LOW);
           incomingBufferSpot = 0;
         }
         checkBattery();
@@ -668,11 +681,15 @@ void loop() {
         {
           //Write the remainder of the buffer
           digitalWrite(PIN_STAT_LED, HIGH); //Toggle stat LED to indicating log recording
+          if(settings.useGPIO11ForStat == true)
+            digitalWrite(PIN_EXT_STAT, HIGH);
           serialDataFile.write(incomingBuffer, incomingBufferSpot); //Record the buffer to the card
           serialDataFile.sync();
           if (settings.frequentFileAccessTimestamps == true)
             updateDataFileAccess(&serialDataFile); // Update the file access time & date
           digitalWrite(PIN_STAT_LED, LOW);
+          if(settings.useGPIO11ForStat == true)
+            digitalWrite(PIN_EXT_STAT, LOW);
 
           incomingBufferSpot = 0;
         }
@@ -760,6 +777,8 @@ void loop() {
     if ((settings.logData == true) && (online.microSD))
     {
       digitalWrite(PIN_STAT_LED, HIGH);
+      if(settings.useGPIO11ForStat == true)
+        digitalWrite(PIN_EXT_STAT, HIGH);
       uint32_t recordLength = sensorDataFile.write(sdOutputData, strlen(sdOutputData));
       if (recordLength != strlen(sdOutputData)) //Record the buffer to the card
       {
@@ -807,6 +826,8 @@ void loop() {
       }
 
       digitalWrite(PIN_STAT_LED, LOW);
+      if(settings.useGPIO11ForStat == true)
+        digitalWrite(PIN_EXT_STAT, LOW);
     }
 
     if ((settings.useGPIO32ForStopLogging == true) && (stopLoggingSeen == true)) // Has the user pressed the stop logging button?

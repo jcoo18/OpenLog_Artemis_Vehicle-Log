@@ -35,7 +35,7 @@ void menuPower()
     SerialPrint(F("7) Serial Tx and Rx pins during sleep are: "));
     if (settings.serialTxRxDuringSleep == true) SerialPrintln(F("Enabled"));
     else SerialPrintln(F("Disabled"));
-
+    
     SerialPrintln(F("x) Exit"));
 
     byte incoming = getByteChoice(menuTimeout); //Timeout after x seconds

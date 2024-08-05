@@ -561,6 +561,7 @@ struct struct_settings {
   float lowBatteryThreshold = 3.4; // Low battery voltage threshold (Volts)
   bool frequentFileAccessTimestamps = false; // If true, the log file access timestamps are updated every 500ms
   bool useGPIO11ForTrigger = false; // If true, use GPIO to trigger sensor logging
+  bool useGPIO11ForStat = true; // If true use GPIO for external mirror of status led
   bool fallingEdgeTrigger = true; // Default to falling-edge triggering (If false, triggering will be rising-edge)
   bool imuAccDLPF = false; // IMU accelerometer Digital Low Pass Filter - default to disabled
   bool imuGyroDLPF = false; // IMU gyro Digital Low Pass Filter - default to disabled

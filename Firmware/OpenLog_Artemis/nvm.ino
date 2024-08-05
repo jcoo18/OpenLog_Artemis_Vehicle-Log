@@ -153,6 +153,7 @@ void recordSystemSettingsToFile()
     settingsFile.print("lowBatteryThreshold="); settingsFile.println(settings.lowBatteryThreshold);
     settingsFile.println("frequentFileAccessTimestamps=" + (String)settings.frequentFileAccessTimestamps);
     settingsFile.println("useGPIO11ForTrigger=" + (String)settings.useGPIO11ForTrigger);
+    settingsFile.println("useGPIO11ForStat=" + (String)settings.useGPIO11ForStat);
     settingsFile.println("fallingEdgeTrigger=" + (String)settings.fallingEdgeTrigger);
     settingsFile.println("imuAccDLPF=" + (String)settings.imuAccDLPF);
     settingsFile.println("imuGyroDLPF=" + (String)settings.imuGyroDLPF);
@@ -408,7 +409,9 @@ bool parseLine(char* str) {
   else if (strcmp(settingName, "frequentFileAccessTimestamps") == 0)
     settings.frequentFileAccessTimestamps = d;
   else if (strcmp(settingName, "useGPIO11ForTrigger") == 0)
-    settings.useGPIO11ForTrigger = d;
+    settings.useGPIO11ForTrigger = d; 
+    else if (strcmp(settingName, "useGPIO11ForStat") == 0)
+    settings.useGPIO11ForStat = d;
   else if (strcmp(settingName, "fallingEdgeTrigger") == 0)
     settings.fallingEdgeTrigger = d;
   else if (strcmp(settingName, "imuAccDLPF") == 0)
